@@ -1,0 +1,8 @@
+graph:
+getPisteGraph() definiert des Graphen des Skigebietes. Alle Gewichte zunächst auf 0 gesetzt.
+getPersonalGraph() adaptiert das Skigebiet gemäß den Präferenzen und der Statistik des Users
+
+recommendedRoute:
+getRecommendedRoute() gibt einen Pfad zurück, des den höchsten Score erziehlt
+
+TODO: unterscheide zwischen Pfaden, wenn mehrere Kanten zum selben Knoten führen
