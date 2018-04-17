@@ -1,21 +1,20 @@
-import pisteGraph
+#import pisteGraph
 
 class preferences:
-    waitingTimeOptimization = 0.5   #float between 0 and 1
-    explorerOptimization = 0.4      #float between 0 and 1
-    redPiste = True                 
-    blackPiste = False                 
+    waitingTimeOptimization = 0.75   #float between 0 and 1
+    discoveryOptimization = 0.5      #float between 0 and 1
+    bluePiste = True
+    redPiste = False                 
+    blackPiste = False               
 
-def getUserStatistics():
-    coveredEdges = []
-    pisteGraph = getPisteGraph()
-    for edge in pisteGraph.edge:
-        counter = coveringCounter(edge)
-        coveredEdges.append((edge,counter))
-    return coveredEdges
+class statistics:
+    timeOnSki = 1
+    distanceCovered = 0
+    altitudeCovered = 0
+    averageVelocity = distanceCovered/timeOnSki
 
-def coveringCounter(edge):
-    coveringCounter = 0
+def getCoveringCounter(edge):
+    coveringCounter = 8
     return coveringCounter
 
 def getCurrentLocation():

@@ -9,51 +9,23 @@ from sets import Set
 def getRouteRecommendation():
     location = userData.getCurrentLocation()
     preferences = userData.preferences
-    graph = pisteGraph.getPisteGraph()
-    possiblePaths = getPossiblePaths(location, graph)
-    recommendedRoute = []
-    score = 0
-    #print len(list(possiblePaths))
-    for numberDestinations in range(len(list(possiblePaths))):
-        for path in list(possiblePaths[numberDestinations]):
-            print path
-            newScore = getScore(path, graph, preferences)
-            #print newScore
-            if (newScore > score):
-                recommendedRoute = path
+    graph = pisteGraph.getPersonalGraph(preferences)
+    paths, score = getPossiblePaths(location, graph)
+    recommendedRouteIndex = score.index(min(score))
+    recommendedRoute = paths[recommendedRouteIndex]
     return recommendedRoute
 
 def getPossiblePaths(location, graph):
     possiblePaths = []
+    routeScore = []
     for node in graph.nodes:
-        if (node != location):
-            possiblePaths.append(nx.all_simple_paths(graph,location,node))
-    return possiblePaths
-
-def getScore(path, graph, preferences):
-    score = 0
-    edgesinpath=zip(path[0:],path[1:])
-    print edgesinpath
-    destinationNode = edgesinpath[-1][-1]
-    print 'destination node ', destinationNode
-
-    #check skiing skills
-    if preferences.redPiste == False:             #no red
-        for u,v in edgesinpath:
-            for i in range(len(graph.get_edge_data(*(u,v)))):
-                if (pisteGraph.getColor(graph,(u,v,i)) == 'red'):
-                    return score
-    if preferences.blackPiste == False:             #no black
-        for u,v in edgesinpath:
-            for i in range(len(graph.get_edge_data(*(u,v)))):
-                if (pisteGraph.getColor(graph,(u,v,i)) == 'black'):
-                    return score
-
-    # add waiting time parameter
-    time = waitingTime.getWaitingTime(destinationNode)
-    score += preferences.waitingTime/time
-
-    return score
+        if (node != location and pisteGraph.getNodeType(graph,node) == 'valleyLift'):
+            path = nx.dijkstra_path(graph,location,node, 'weight')
+            weight = nx.dijkstra_path_length(graph,location,node, 'weight')
+            coveredDistance = pisteGraph.getCoveredDistance(graph,path)
+            possiblePaths.append(path)
+            routeScore.append(weight/coveredDistance)
+    return possiblePaths, routeScore
 
 
 print getRouteRecommendation()
