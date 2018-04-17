@@ -8,7 +8,7 @@ from sets import Set
 
 def getRouteRecommendation():
     location = userData.getCurrentLocation()
-    preferences = userData.getUserPreferences()
+    preferences = userData.preferences
     graph = pisteGraph.getPisteGraph()
     possiblePaths = getPossiblePaths(location, graph)
     recommendedRoute = []
@@ -38,12 +38,12 @@ def getScore(path, graph, preferences):
     print 'destination node ', destinationNode
 
     #check skiing skills
-    if preferences[2] == 0:             #no red
+    if preferences.redPiste == False:             #no red
         for u,v in edgesinpath:
             for i in range(len(graph.get_edge_data(*(u,v)))):
                 if (pisteGraph.getColor(graph,(u,v,i)) == 'red'):
                     return score
-    if preferences[3] == 0:             #no black
+    if preferences.blackPiste == False:             #no black
         for u,v in edgesinpath:
             for i in range(len(graph.get_edge_data(*(u,v)))):
                 if (pisteGraph.getColor(graph,(u,v,i)) == 'black'):
@@ -51,7 +51,7 @@ def getScore(path, graph, preferences):
 
     # add waiting time parameter
     time = waitingTime.getWaitingTime(destinationNode)
-    score += preferences[0]/time
+    score += preferences.waitingTime/time
 
     return score
 

@@ -1,13 +1,10 @@
 import pisteGraph
 
-def getUserPreferences():
-    preferences = []
+class preferences:
     waitingTimeOptimization = 0.5   #float between 0 and 1
     explorerOptimization = 0.4      #float between 0 and 1
-    redPiste = 0                    #0 if no, 1 if yes
-    blackPiste = 1                  #0 if no, 1 if yes
-    preferences.extend((waitingTimeOptimization, explorerOptimization,redPiste,blackPiste))
-    return preferences
+    redPiste = True                 
+    blackPiste = False                 
 
 def getUserStatistics():
     coveredEdges = []
