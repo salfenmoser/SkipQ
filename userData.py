@@ -4,7 +4,7 @@ class preferences:
     waitingTimeOptimization = 0.75   #float between 0 and 1
     discoveryOptimization = 0.5      #float between 0 and 1
     bluePiste = True
-    redPiste = False                 
+    redPiste = True                 
     blackPiste = False               
 
 class statistics:
